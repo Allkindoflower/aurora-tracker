@@ -1,22 +1,29 @@
 import requests
+import os
+from dotenv import load_dotenv
 
 
-api = 'http://api.auroras.live/v1/?type=locations'
+load_dotenv()
 
+api = os.getenv('API')
 
 response = requests.get(api)
 
 data = response.json()
 names = []
 
+
 for key, aurora in data.items():
     if key == 'message':
         continue
     else:
-        names.append(aurora['name'])
-
-
+        if aurora['country']:
+            names.append(aurora['name'])
+    
 print('\n'.join(names))
+
+
+
 
 
 
